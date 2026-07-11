@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>!?</title>
+<title>guatuh</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@ h1,h2,h3,.display{font-family:'Anton',sans-serif;text-transform:uppercase;letter
 a{color:inherit;text-decoration:none;}
 img{display:block;max-width:100%;}
 
-/* ambient bg grid */
+
 .bg-grid{
   position:fixed; inset:0; z-index:-2;
   background-image:
@@ -309,15 +309,15 @@ section{ position:relative; padding:140px 5vw 60px; }
 .player-card{
   position:relative; background:var(--white); border:1.5px solid var(--dark);
   clip-path:polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
-  padding:26px 24px 22px; transition:transform .25s ease;
-  cursor:pointer; /* Added to signify it's tappable */
+  padding:26px 24px 22px; transition:transform .25s ease, box-shadow .3s ease;
+  cursor:pointer; overflow:hidden; align-self:start; perspective:1200px;
 }
-.player-card:hover{ transform:translateY(-6px); }
+.player-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,.12); }
 .player-card .tag-status{
   position:absolute; top:0; right:0;
   font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--white);
   background:var(--black); padding:5px 12px 5px 16px; letter-spacing:0.05em;
-  clip-path:polygon(14px 0, 100% 0, 100% 100%, 0 100%);
+  clip-path:polygon(14px 0, 100% 0, 100% 100%, 0 100%); z-index:2;
 }
 .player-card .game-title{ font-family:'Anton',sans-serif; font-size:1.35rem; color:var(--black); margin-bottom:4px; }
 .player-card .game-sub{ font-family:'JetBrains Mono',monospace; font-size:0.74rem; color:var(--gray); margin-bottom:18px; letter-spacing:0.03em;}
@@ -326,62 +326,97 @@ section{ position:relative; padding:140px 5vw 60px; }
 .stat-box .val{ font-family:'JetBrains Mono',monospace; font-weight:800; font-size:1.02rem; color:var(--black); display:block; }
 .stat-box .label{ font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.05em; }
 
-
-
-.player-card{
-  cursor:pointer;
-  overflow:hidden;
-  align-self:start;
+.card-inner{
+  position:relative;
+  width:100%;
+  min-height:220px;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;
 }
+
+.card-face{
+  width:100%;
+  min-height:100%;
+  backface-visibility:hidden;
+  padding:0;
+}
+
+.card-front{ display:block; }
+
+.card-back{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  transform:rotateY(180deg);
+  padding:0;
+}
+
+.player-card.open .card-inner{ transform:rotateY(180deg); }
+.player-card.open .card-front{ opacity:.28; }
+.player-card.open .tag-status{ opacity:.75; }
+
+
 
 .game-profile{
-  max-height:0;
-  opacity:0;
-  overflow:hidden;
-
-  transition:
-    max-height .45s ease,
-    opacity .35s ease,
-    margin-top .35s ease;
-
-  margin-top:0;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:0;
+  text-align:center;
+  padding:0;
 }
 
-.player-card.open .game-profile{
-  max-height:260px;
-  opacity:1;
-  margin-top:18px;
+.game-profile-inner{
+  width:100%;
+  padding:20px 24px 22px;
+  box-sizing:border-box;
 }
 
 .game-profile img{
   width:100%;
-  max-width:170px;
-  border-radius:16px;
+  height:auto;
+  max-width:none;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:0;
   display:block;
-  margin:auto;
-
-  border:2px solid #777;
+  border:none;
+  box-shadow:0 10px 28px rgba(0,0,0,.25);
 }
 
 .game-profile h4{
-  margin-top:14px;
+  margin-top:0;
   text-align:center;
   color:white;
   font-size:1rem;
 }
 
 .game-profile p{
+  margin:0;
   text-align:center;
   color:#bdbdbd;
-  font-size:.85rem;
+  font-size:.9rem;
 }
 
 .player-card .account{ 
   font-family:'JetBrains Mono',monospace; 
   font-size:0.74rem; 
   color:var(--gray); 
+  margin-top:6px;
 }
 .player-card .account b{ color:var(--black); font-weight:600; }
+.player-card .flip-hint{
+  margin-top:2px;
+  font-size:0.68rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--gray);
+  opacity:0.85;
+}
 
 
 footer{ padding:70px 5vw 90px; text-align:center; border-top:1.5px solid var(--dark); margin-top:60px;}
@@ -422,7 +457,7 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--black); outline-o
   <div class="hero-left">
     <div class="hero-eyebrow">Theodore's</div>
     <h1>ABOUT<br><span class="outline">ME</span></h1>
-    <p class="tag">if u guys interested then please scroll down, bcs i hope we got the same hobbies or interests that we could talk abt in dms or wa (SO SORRY FOR THE BAD ENGLISH)</p>
+    <p class="tag">hiiii if u guys interested then please scroll down, bcs i hope we got the same hobbies or interests that we could talk abt in dms or wa (SO SORRY FOR THE BAD ENGLISH)</p>
   </div>
   <div class="hero-right">
     <div class="rot-label">Scroll aja coy</div>
@@ -497,6 +532,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--black); outline-o
     <div class="poster reveal"><img src="images/tbhx.jpg" class="poster-img" alt=""><span class="type">Series</span><h3>To Be Hero X</h3><p>my first ever donghua and unexpectedly amazing</p></div>
     <div class="poster reveal"><img src="images/cpe.jpg" class="poster-img" alt=""><span class="type">Series</span><h3>Cyberpunk: Edgerunners</h3><p>wish we could go to the moon together</p></div>
     <div class="poster reveal"><img src="images/phm.jpg" class="poster-img" alt=""><span class="type">Movie</span><h3>Project Hail Mary</h3><p>i just fell in love w this movie</p></div>
+    <div class="poster reveal"><img src="images/demonc.jpg" class="poster-img" alt=""><span class="type">Movie</span><h3>Demon City</h3><p>sumpah ini wajahnya si mc kaya bang upi</p></div>
+    <div class="poster reveal"><img src="images/fnaf.jpg" class="poster-img" alt=""><span class="type">Movie</span><h3>Fnaf</h3><p>okay i get it, the movie is actually not that good but i swear i've been waiting this since elementary school</p></div>
     <div class="poster reveal"><img src="images/pcf.jpg" class="poster-img" alt=""><span class="type">Movie</span><h3>Pacific Rim</h3><p>Classic but memorable, i hope they gonna make a sequel abt this</p></div>
   </div>
 </section>
@@ -568,82 +605,127 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--black); outline-o
   <div class="game-grid">
     <div class="player-card reveal">
       <span class="tag-status mono">RETIRED</span>
-      <div class="game-title">Mobile Legends</div>
-      <div class="game-sub">already retired</div>
-      <div class="stat-row">
-        <div class="stat-box"><span class="val">Suyou</span><span class="label">Fav Hero</span></div>
-        <div class="stat-box"><span class="val">121</span><span class="label">Highest Rank</span></div>
-        <div class="stat-box"><span class="val">75%</span><span class="label">Fav Hero WR</span></div>
-      </div>
-      <div class="account">Tap for more <b></b></div>
-      <div class="game-profile">
-        <img src="images/ml-profile.jpg" alt="Mobile Legends profile">
-        <h4>Mechanic Error. (im using my friend's big bro account rn)</h4>
-        <p>Jungler Main</p>
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="game-title">Mobile Legends</div>
+          <div class="game-sub">already retired</div>
+          <div class="stat-row">
+            <div class="stat-box"><span class="val">Suyou</span><span class="label">Fav Hero</span></div>
+            <div class="stat-box"><span class="val">121</span><span class="label">Highest Rank</span></div>
+            <div class="stat-box"><span class="val">75%</span><span class="label">Fav Hero WR</span></div>
+          </div>
+          <div class="account">Tap again to view account <b></b></div>
+        </div>
+        <div class="card-face card-back">
+          <div class="game-profile">
+            <img src="images/mlbb.jpg" alt="Mobile Legends profile">
+            <div class="game-profile-inner">
+              <h4>Mechanic Error. (im using my friend's big bro account rn)</h4>
+              <p>Jungler Main</p>
+              <div class="flip-hint">Tap again to return</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="player-card reveal">
       <span class="tag-status mono">ACTIVE</span>
-      <div class="game-title">Delta Force</div>
-      <div class="game-sub">i only play warfare</div>
-      <div class="stat-row">
-        <div class="stat-box"><span class="val">1209</span><span class="label">Score/Min</span></div>
-        <div class="stat-box"><span class="val">Marshal 24</span><span class="label">Highest Rank</span></div>
-        <div class="stat-box"><span class="val">Vyron</span><span class="label">Fav Operator</span></div>
-      </div>
-      <div class="account">Tap for more <b></b></div>
-      <div class="game-profile">
-        <img src="images/df.jpg" alt="Delta Force profile">
-        <h4>SEVELLA</h4>
-        <p>QBZ THE GOAT</p>
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="game-title">Delta Force</div>
+          <div class="game-sub">i only play warfare</div>
+          <div class="stat-row">
+            <div class="stat-box"><span class="val">1209</span><span class="label">Score/Min</span></div>
+            <div class="stat-box"><span class="val">Marshal 24</span><span class="label">Highest Rank</span></div>
+            <div class="stat-box"><span class="val">Vyron</span><span class="label">Fav Operator</span></div>
+          </div>
+          <div class="account">Tap again to view account <b></b></div>
+        </div>
+        <div class="card-face card-back">
+          <div class="game-profile">
+            <img src="images/df.jpg" alt="Delta Force profile">
+            <div class="game-profile-inner">
+              <h4>SEVELLA</h4>
+              <p>QBZ MY GOAT</p>
+              <div class="flip-hint">Tap again to return</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="player-card reveal">
       <span class="tag-status mono">SOLD</span>
-      <div class="game-title">Honkai Star Rail</div>
-      <div class="game-sub">actually just sold it recently</div>
-      <div class="stat-row">
-        <div class="stat-box"><span class="val">70</span><span class="label">TL</span></div>
-        <div class="stat-box"><span class="val">March 7th</span><span class="label">Fav Character</span></div>
-        <div class="stat-box"><span class="val">A8 35</span><span class="label">Currency Wars</span></div>
-      </div>
-      <div class="account">Tap for more <b></b></div>
-      <div class="game-profile">
-        <img src="images/hsr-profile.jpg" alt="Honkai Star Rail profile">
-        <h4>UID 841783658</h4>
-        <p>March 7th my wife gw</p>
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="game-title">Honkai Star Rail</div>
+          <div class="game-sub">actually just sold it recently</div>
+          <div class="stat-row">
+            <div class="stat-box"><span class="val">70</span><span class="label">TL</span></div>
+            <div class="stat-box"><span class="val">March 7th</span><span class="label">Fav Character</span></div>
+            <div class="stat-box"><span class="val">A8 35</span><span class="label">Currency Wars</span></div>
+          </div>
+          <div class="account">Tap again to view account <b></b></div>
+        </div>
+        <div class="card-face card-back">
+          <div class="game-profile">
+            <img src="images/hsr.jpg" alt="Honkai Star Rail profile">
+            <div class="game-profile-inner">
+              <h4>UID 841783658</h4>
+              <p>March 7th my wife gw</p>
+              <div class="flip-hint">Tap again to return</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="player-card reveal">
       <span class="tag-status mono">ACTIVE</span>
-      <div class="game-title">Wuthering Waves</div>
-      <div class="game-sub">only play it bcs of Lucy and Rebecca</div>
-      <div class="stat-row">
-        <div class="stat-box"><span class="val">66</span><span class="label">Union Level</span></div>
-        <div class="stat-box"><span class="val">Lupa</span><span class="label">Fav Character</span></div>
-        <div class="stat-box"><span class="val">Rinascita</span><span class="label">Fav Region</span></div>
-      </div>
-      <div class="account">Tap for more <b></b></div>
-      <div class="game-profile">
-        <img src="images/wuwa-profile.jpg" alt="Wuthering Waves profile">
-        <h4>UID 900252234</h4>
-        <p>akucintakurogem</p>
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="game-title">Wuthering Waves</div>
+          <div class="game-sub">only play it bcs of Lucy and Rebecca</div>
+          <div class="stat-row">
+            <div class="stat-box"><span class="val">66</span><span class="label">Union Level</span></div>
+            <div class="stat-box"><span class="val">Lupa</span><span class="label">Fav Character</span></div>
+            <div class="stat-box"><span class="val">Rinascita</span><span class="label">Fav Region</span></div>
+          </div>
+          <div class="account">Tap again to view account <b></b></div>
+        </div>
+        <div class="card-face card-back">
+          <div class="game-profile">
+            <img src="images/wuwa.jpg" alt="Wuthering Waves profile">
+            <div class="game-profile-inner">
+              <h4>UID 900252234</h4>
+              <p>akucintakurogem</p>
+              <div class="flip-hint">Tap again to return</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="player-card reveal">
       <span class="tag-status mono">CASUAL</span>
-      <div class="game-title">Roblox</div>
-      <div class="game-sub">just played the game</div>
-      <div class="stat-row"></div>
-      <div class="account">Tap for more <b></b></div>
-      <div class="game-profile">
-        <img src="images/rblx.png" alt="Roblox profile">
-        <h4>1onlysevl</h4>
-        <p>rate ava dari ../10 plis</p>
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="game-title">Roblox</div>
+          <div class="game-sub">just played the game</div>
+          <div class="stat-row"></div>
+          <div class="account">Tap again to view account <b></b></div>
+        </div>
+        <div class="card-face card-back">
+          <div class="game-profile">
+            <img src="images/rblx.jpg" alt="Roblox profile">
+            <div class="game-profile-inner">
+              <h4>1onlysevl</h4>
+              <p>rate ava dari ../10 plis</p>
+              <div class="flip-hint">Tap again to return</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -659,7 +741,7 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--black); outline-o
   </div>
   <div class="poster-shelf">
     <div class="poster reveal"><img src="images/rdr2.jpg" class="poster-img" alt=""><span class="type">Story · 10/10</span><h3>Red Dead Redemption 2</h3><p>Prolly the best game i've ever played imo, its just that perfect and memorable for me. Arthur Morgan, story, side characters, mechanics is just the best (luckily i played this game without any spoilers)</p></div>
-    <div class="poster reveal"><img src="images/cyberpunk.jpg" class="poster-img" alt=""><span class="type">Story · 9.5/10</span><h3>Cyberpunk 2077</h3><p>its not that good, but what makes me love this game is bcz i can kill adam smasher after he zeroed david. also thanks to johnny silverhand bcs hes just the goat</p></div>
+    <div class="poster reveal"><img src="images/cp.jpg" class="poster-img" alt=""><span class="type">Story · 9.5/10</span><h3>Cyberpunk 2077</h3><p>its not that good, but what makes me love this game is bcz i can kill adam smasher after he zeroed david. also thanks to johnny silverhand bcs hes just the goat</p></div>
     <div class="poster reveal"><img src="images/mc.jpg" class="poster-img" alt=""><span class="type">Sandbox · 10/10</span><h3>Minecraft</h3><p>Best sandbox game ever made</p></div>
   </div>
 
@@ -669,9 +751,9 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--black); outline-o
 
   <div id="more-games-wrap" class="more-games-wrap">
     <div class="more-games-grid">
-      <div class="poster square-poster"><img src="images/got.jpg" class="poster-img" alt=""><h3>Ghost of Tsushima (8/10)</h3><p>Jin sakai my goat but sadly the game is kinda repetitive</p></div>
-      <div class="poster square-poster"><img src="images/gow.jpg" class="poster-img" alt=""><h3>God of War (9.5/10)</h3><p>Kratos character development is way better than Arthur Morgan but the mechanic is just meh</p></div>
-      <div class="poster square-poster"><img src="images/007.jpg" class="poster-img" alt=""><h3>007 First Light (9.3/10)</h3><p>This game story and mechanic is perfect, but i didnt quite like the ending</p></div>
+      <div class="poster square-poster"><img src="images/got.jpg" class="poster-img" alt=""><h3>Ghost of Tsushima </h3><p>Jin sakai my goat but sadly the game is kinda repetitive</p></div>
+      <div class="poster square-poster"><img src="images/gow.jpg" class="poster-img" alt=""><h3>God of War </h3><p>Kratos character development is way better than Arthur Morgan</p></div>
+      <div class="poster square-poster"><img src="images/007.jpg" class="poster-img" alt=""><h3>007 First Light </h3><p>This game story and mechanic is perfect, but i didnt quite like the ending</p></div>
       <div class="poster square-poster"><img src="images/p5r.jpg" class="poster-img" alt=""><h3>Persona 5 Royal</h3><p>havent finished it yet</p></div>
     </div>
   </div>
